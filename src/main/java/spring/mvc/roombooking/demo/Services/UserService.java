@@ -1,11 +1,13 @@
 package spring.mvc.roombooking.demo.Services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import spring.mvc.roombooking.demo.Entities.User;
 
-@Service
-public class UserService {
+import java.util.List;
 
-
-
+public interface UserService {
+    List<User> getUsers();
+    User postUser(User newUser);
+    User getUser(Long id);
+    User updateUser(User newUser, Long id);
+    void deleteUser(Long id);
 }

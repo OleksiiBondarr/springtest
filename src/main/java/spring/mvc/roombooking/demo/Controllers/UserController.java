@@ -2,6 +2,7 @@ package spring.mvc.roombooking.demo.Controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,54 +13,41 @@ import org.springframework.web.bind.annotation.RestController;
 import spring.mvc.roombooking.demo.Entities.User;
 import spring.mvc.roombooking.demo.Exceptions.UserNotFoundException;
 import spring.mvc.roombooking.demo.Repositories.UserRepository;
-
+import spring.mvc.roombooking.demo.Services.UserService;
+import spring.mvc.roombooking.demo.Services.UserServiceImpl;
 @RestController
 public class UserController {
 
-    private final UserRepository repository;
+    private final UserService userService;
 
-    UserController(UserRepository repository) {
-        this.repository = repository;
+    UserController( UserService userService) {
+        this.userService = userService;
     }
 
-    // Aggregate root
-
     @GetMapping("/users")
-    List<User> all() {
-        return repository.findAll();
+    List<User> getUsers() {
+        return userService.getUsers();
     }
 
     @PostMapping("/users")
-    User newUser(@RequestBody User newUser) {
-        return repository.save(newUser);
+    User postUser(@RequestBody User newUser) {
+        return userService.postUser(newUser);
     }
 
-    // Single item
-
     @GetMapping("/users/{id}")
-    User one(@PathVariable Long id) {
+    User getUser(@PathVariable Long id) {
 
-        return repository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+        return userService.getUser(id);
     }
 
     @PutMapping("/users/{id}")
-    User replaceUser(@RequestBody User newUser, @PathVariable Long id) {
+    User updateUser(@RequestBody User newUser, @PathVariable Long id) {
 
-        return repository.findById(id)
-                .map(user -> {
-                    user.setName(newUser.getName());
-                    user.setRole(newUser.getRole());
-                    return repository.save(user);
-                })
-                .orElseGet(() -> {
-                    newUser.setId(id);
-                    return repository.save(newUser);
-                });
+        return userService.updateUser(newUser, id);
     }
 
     @DeleteMapping("/users/{id}")
     void deleteUser(@PathVariable Long id) {
-        repository.deleteById(id);
+        userService.deleteUser(id);
     }
 }
