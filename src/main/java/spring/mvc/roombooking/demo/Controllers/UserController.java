@@ -1,4 +1,4 @@
-package spring.mvc.roombooking.demo;
+package spring.mvc.roombooking.demo.Controllers;
 
 import java.util.List;
 
@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import spring.mvc.roombooking.demo.Entities.User;
+import spring.mvc.roombooking.demo.Exceptions.UserNotFoundException;
+import spring.mvc.roombooking.demo.Repositories.UserRepository;
 
 @RestController
-class UserController {
+public class UserController {
 
     private final UserRepository repository;
 
@@ -56,7 +59,7 @@ class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    void deleteEmployee(@PathVariable Long id) {
+    void deleteUser(@PathVariable Long id) {
         repository.deleteById(id);
     }
 }

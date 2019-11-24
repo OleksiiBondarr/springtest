@@ -1,4 +1,4 @@
-package spring.mvc.roombooking.demo;
+package spring.mvc.roombooking.demo.Entities;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -11,15 +11,15 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-class User {
+public class User {
 
     private @Id @GeneratedValue Long id;
     @Setter(AccessLevel.PUBLIC)private String name;
     private String role;
 
-    User() {}
+    public User() {}
 
-    User(String name, String role) {
+    public User(String name, String role) {
         this.name = name;
         this.role = role;
     }
