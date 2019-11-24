@@ -9,6 +9,8 @@ import spring.mvc.roombooking.demo.Exceptions.UserNotFoundException;
 import spring.mvc.roombooking.demo.Repositories.UserRepository;
 import spring.mvc.roombooking.demo.Services.UserService;
 import spring.mvc.roombooking.demo.Services.UserServiceImpl;
+import spring.mvc.roombooking.demo.dto.UserDto;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -21,22 +23,22 @@ public class UserController {
 
 
     @GetMapping()
-    List<User> getUsers() {
+    List<UserDto> getUsers() {
         return userService.getUsers();
     }
 
     @PostMapping
-    User postUser(@RequestBody User newUser) {
+    UserDto postUser(@RequestBody User newUser) {
         return userService.postUser(newUser);
     }
 
     @GetMapping("/{login}")
-    User getUser(@PathVariable String login) {
+    UserDto getUser(@PathVariable String login) {
         return userService.getUser(login);
     }
 
     @PutMapping("/{login}")
-    User updateUser(@RequestBody User newUser, @PathVariable String login) {
+    UserDto updateUser(@RequestBody User newUser, @PathVariable String login) {
         return userService.updateUser(newUser, login);
     }
 

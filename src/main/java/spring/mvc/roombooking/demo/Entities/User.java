@@ -15,12 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Entity
 @Data
 public class User {
-    @JsonIgnore
     private @Id @GeneratedValue Long id;
     private String name;
     private String surname;
     private String login;
-    //@JsonIgnore
     private String password;
     public User() {}
 
@@ -30,10 +28,5 @@ public class User {
         this.login = login;
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
-    public void setPassword(String password){
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
-    }
-    public void setPasswordWithoutEncoding(String password){
-        this.password = password;
-    }
+
 }

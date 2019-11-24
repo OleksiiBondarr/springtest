@@ -14,7 +14,6 @@ import spring.mvc.roombooking.demo.Entities.User;
 import spring.mvc.roombooking.demo.Services.UserService;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -33,7 +32,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String login = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        User user = userService.getUser(login);
+        User user = userService.convertFromDto(userService.getUser(login));
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         if (user==null) return null;
