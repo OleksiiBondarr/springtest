@@ -33,7 +33,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String login = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        User user = userService.getUserByLogin(login);
+        User user = userService.getUser(login);
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         if (user==null) return null;

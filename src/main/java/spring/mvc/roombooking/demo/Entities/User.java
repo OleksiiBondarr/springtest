@@ -1,5 +1,6 @@
 package spring.mvc.roombooking.demo.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -9,15 +10,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Data
 public class User {
-
+    @JsonIgnore
     private @Id @GeneratedValue Long id;
     private String name;
     private String surname;
     private String login;
+    //@JsonIgnore
     private String password;
     public User() {}
 
@@ -30,5 +33,7 @@ public class User {
     public void setPassword(String password){
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
-
+    public void setPasswordWithoutEncoding(String password){
+        this.password = password;
+    }
 }

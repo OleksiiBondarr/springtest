@@ -30,19 +30,18 @@ public class UserController {
         return userService.postUser(newUser);
     }
 
-    @GetMapping("/{id}")
-    User getUser(@PathVariable Long id) {
-        return userService.getUser(id);
+    @GetMapping("/{login}")
+    User getUser(@PathVariable String login) {
+        return userService.getUser(login);
     }
 
-    @PutMapping("/{id}")
-    User updateUser(@RequestBody User newUser, @PathVariable Long id) {
-
-        return userService.updateUser(newUser, id);
+    @PutMapping("/{login}")
+    User updateUser(@RequestBody User newUser, @PathVariable String login) {
+        return userService.updateUser(newUser, login);
     }
 
-    @DeleteMapping("/{id}")
-    void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/{login}")
+    void deleteUser(@PathVariable String login) {
+        userService.deleteUser(login);
     }
 }
