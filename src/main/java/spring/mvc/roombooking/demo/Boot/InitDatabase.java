@@ -17,8 +17,9 @@ public class InitDatabase {
     }
 
     @PostConstruct
-    public void initDatabase() {
-        userRepository.save(new User("Bilbo Baggins", "burglar"));
-        userRepository.save(new User("Frodo Baggins", "thief"));
+    public void initDatabase()//TODO create file
+     {
+        userRepository.save(new User("Bilbo", "Baggins","bil","bo"));
+        userRepository.save(new User("Frodo", "Baggins","fro","do"));
     }
 }

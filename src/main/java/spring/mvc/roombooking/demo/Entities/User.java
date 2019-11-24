@@ -8,19 +8,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @Entity
 @Data
 public class User {
 
     private @Id @GeneratedValue Long id;
-    @Setter(AccessLevel.PUBLIC)private String name;
-    private String role;
-
+    private String name;
+    private String surname;
+    private String login;
+    private String password;
     public User() {}
 
-    public User(String name, String role) {
+    public User(String name, String surname, String login, String password) {
         this.name = name;
-        this.role = role;
+        this.surname = surname;
+        this.login = login;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
+    public void setPassword(String password){
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
 }
