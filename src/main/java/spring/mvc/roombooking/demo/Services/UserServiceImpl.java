@@ -1,8 +1,7 @@
 package spring.mvc.roombooking.demo.Services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import spring.mvc.roombooking.demo.Entities.User;
 import spring.mvc.roombooking.demo.Exceptions.UserNotFoundException;
@@ -16,14 +15,14 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
     public UserServiceImpl(UserRepository repository){
         this.repository = repository;
     }
     public List<UserDto> getUsers(){
         return repository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }
-    public UserDto postUser(User newUser){
+    public UserDto postUser(User newUser){//TODO check for unique
         newUser.setPassword(this.setPassword(newUser.getPassword()));
         repository.save(newUser);
         return this.convertToDto(newUser);

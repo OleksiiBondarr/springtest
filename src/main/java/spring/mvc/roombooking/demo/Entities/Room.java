@@ -18,6 +18,7 @@ public class Room {
     private Integer numberOfSeats;
     private boolean projector;
     private String phoneNumber;
+    private boolean available = true;
 
     public Room() {}
     public Room(String name, String location, Integer numberOfSeats, boolean projector, String phoneNumber) {

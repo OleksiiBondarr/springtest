@@ -21,7 +21,6 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @GetMapping()
     List<UserDto> getUsers() {
         return userService.getUsers();
@@ -30,11 +29,6 @@ public class UserController {
     @PostMapping
     UserDto postUser(@RequestBody User newUser) {
         return userService.postUser(newUser);
-    }
-
-    @GetMapping("/{login}")
-    UserDto getUser(@PathVariable String login) {
-        return userService.getUser(login);
     }
 
     @PutMapping("/{login}")
