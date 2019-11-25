@@ -1,9 +1,9 @@
-package spring.mvc.roombooking.demo.Controllers;
+package spring.mvc.roombooking.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import spring.mvc.roombooking.demo.Entities.Room;
-import spring.mvc.roombooking.demo.Services.RoomService;
+import spring.mvc.roombooking.demo.entities.Room;
+import spring.mvc.roombooking.demo.services.RoomService;
 import spring.mvc.roombooking.demo.dto.RoomDto;
 import java.util.List;
 

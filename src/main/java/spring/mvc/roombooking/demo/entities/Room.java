@@ -1,7 +1,6 @@
-package spring.mvc.roombooking.demo.Entities;
+package spring.mvc.roombooking.demo.entities;
 
 import lombok.Data;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

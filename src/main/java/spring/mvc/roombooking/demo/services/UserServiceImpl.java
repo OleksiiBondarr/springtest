@@ -1,11 +1,11 @@
-package spring.mvc.roombooking.demo.Services;
+package spring.mvc.roombooking.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import spring.mvc.roombooking.demo.Entities.User;
-import spring.mvc.roombooking.demo.Exceptions.UserNotFoundException;
-import spring.mvc.roombooking.demo.Repositories.UserRepository;
+import spring.mvc.roombooking.demo.entities.User;
+import spring.mvc.roombooking.demo.exceptions.UserNotFoundException;
+import spring.mvc.roombooking.demo.repositories.UserRepository;
 import spring.mvc.roombooking.demo.dto.UserDto;
 
 import java.util.List;

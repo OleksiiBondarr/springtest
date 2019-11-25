@@ -1,4 +1,4 @@
-package spring.mvc.roombooking.demo.Configs;
+package spring.mvc.roombooking.demo.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,8 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
-import spring.mvc.roombooking.demo.Entities.User;
-import spring.mvc.roombooking.demo.Services.UserService;
+import spring.mvc.roombooking.demo.entities.User;
+import spring.mvc.roombooking.demo.services.UserService;
 
 import java.util.ArrayList;
 import java.util.List;

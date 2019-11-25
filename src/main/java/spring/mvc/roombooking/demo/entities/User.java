@@ -1,16 +1,12 @@
-package spring.mvc.roombooking.demo.Entities;
+package spring.mvc.roombooking.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Data

@@ -1,11 +1,10 @@
-package spring.mvc.roombooking.demo.Exceptions;
+package spring.mvc.roombooking.demo.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import spring.mvc.roombooking.demo.Exceptions.UserNotFoundException;
 
 @ControllerAdvice
 public class UserNotFoundAdvice {

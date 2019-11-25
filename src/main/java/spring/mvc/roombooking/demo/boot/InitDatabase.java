@@ -1,11 +1,11 @@
-package spring.mvc.roombooking.demo.Boot;
+package spring.mvc.roombooking.demo.boot;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import spring.mvc.roombooking.demo.Entities.Room;
-import spring.mvc.roombooking.demo.Entities.User;
-import spring.mvc.roombooking.demo.Repositories.RoomRepository;
-import spring.mvc.roombooking.demo.Repositories.UserRepository;
+import spring.mvc.roombooking.demo.entities.Room;
+import spring.mvc.roombooking.demo.entities.User;
+import spring.mvc.roombooking.demo.repositories.RoomRepository;
+import spring.mvc.roombooking.demo.repositories.UserRepository;
 
 import javax.annotation.PostConstruct;
 

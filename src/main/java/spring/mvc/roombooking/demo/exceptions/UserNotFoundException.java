@@ -1,4 +1,4 @@
-package spring.mvc.roombooking.demo.Exceptions;
+package spring.mvc.roombooking.demo.exceptions;
 
 public class UserNotFoundException extends RuntimeException {
 

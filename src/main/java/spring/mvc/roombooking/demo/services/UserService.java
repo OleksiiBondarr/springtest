@@ -1,6 +1,6 @@
-package spring.mvc.roombooking.demo.Services;
+package spring.mvc.roombooking.demo.services;
 
-import spring.mvc.roombooking.demo.Entities.User;
+import spring.mvc.roombooking.demo.entities.User;
 import spring.mvc.roombooking.demo.dto.UserDto;
 
 import java.util.List;
