@@ -6,7 +6,6 @@ import spring.mvc.roombooking.demo.dto.BookingDto;
 import spring.mvc.roombooking.demo.entities.Booking;
 import spring.mvc.roombooking.demo.services.BookingService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class BookingController {
 
     @GetMapping("/room/{name}/{datefrom}/{dateto}")
     List<BookingDto> getBookingByUser(@PathVariable String name, @PathVariable String datefrom, @PathVariable String dateto) {
-        return new ArrayList<>();
+        return bookingService.getBookingByUser(name, datefrom, dateto);
     }
 
     @PostMapping

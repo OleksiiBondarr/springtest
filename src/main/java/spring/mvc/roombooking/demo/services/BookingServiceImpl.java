@@ -60,7 +60,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getBookingByUser(String login, String datefrom, String dateto) {
-        if (roomRepository.findById(login).isPresent())
+        if (userRepository.findById(login).isPresent())
             return repository
                 .findAll()
                 .stream().filter(booking -> booking.getLogin().equals(login)&&!this.availabilityService.isAvailable(booking.getRoomName(), datefrom, dateto))
