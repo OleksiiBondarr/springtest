@@ -17,17 +17,20 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
+
     @Autowired
-    public UserServiceImpl(UserRepository repository){
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
     }
+
     @Override
-    public List<UserDto> getUsers(){
+    public List<UserDto> getUsers() {
         return repository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }
+
     @Override
-    public UserDto postUser(UserPassDto newUser){
-        if (!repository.findById(newUser.getLogin()).isPresent()){
+    public UserDto postUser(UserPassDto newUser) {
+        if (!repository.findById(newUser.getLogin()).isPresent()) {
             newUser.setPassword(this.setPassword(newUser.getPassword()));
             User user = new User(
                     newUser.getName(),
@@ -37,49 +40,54 @@ public class UserServiceImpl implements UserService {
             );
             repository.save(user);
             return this.convertToDto(user);
-        }else{
+        } else {
             throw new UserAlreadyExistException(newUser.getLogin());
         }
     }
+
     @Override
-    public UserDto getUser(String login){
-        if(repository.findById(login).isPresent())
+    public UserDto getUser(String login) {
+        if (repository.findById(login).isPresent())
             return this.convertToDto(repository.findById(login).get());
         else
             throw new UserNotFoundException(login);
     }
+
     @Override
-    public UserDto updateUser(UserPassDto newUser){
-        if (repository.findById(newUser.getLogin()).isPresent()){
+    public UserDto updateUser(UserPassDto newUser) {
+        if (repository.findById(newUser.getLogin()).isPresent()) {
             User user = this.convertFromDto(this.getUser(newUser.getLogin()));
             user.setName(newUser.getName());
             user.setSurname(newUser.getSurname());
             user.setPassword(this.setPassword(newUser.getPassword()));
             repository.save(user);
             return this.convertToDto(user);
-        }else {
+        } else {
             throw new UserNotFoundException(newUser.getLogin());
         }
     }
+
     @Override
-    public void deleteUser(String login){
+    public void deleteUser(String login) {
         if (repository.findById(login).isPresent())
             repository.deleteById(login);
         else
             throw new UserNotFoundException(login);
     }
 
-    private UserDto convertToDto(User user){
-        return new UserDto(user.getName(),user.getSurname(),user.getLogin());
+    private UserDto convertToDto(User user) {
+        return new UserDto(user.getName(), user.getSurname(), user.getLogin());
     }
+
     @Override
-    public User convertFromDto(UserDto userDto){
+    public User convertFromDto(UserDto userDto) {
         if (repository.findById(userDto.getLogin()).isPresent())
             return repository.findById(userDto.getLogin()).get();
         else
             throw new UserNotFoundException(userDto.getLogin());
     }
-    private String setPassword(String password){
+
+    private String setPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 }

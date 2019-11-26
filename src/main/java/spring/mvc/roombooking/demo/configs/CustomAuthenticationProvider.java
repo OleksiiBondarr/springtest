@@ -23,6 +23,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final UserService userService;
     private final String pass;
+
     @Autowired
     CustomAuthenticationProvider(@Value("${rootpassword}") String pass, UserService userService) {
         this.userService = userService;
@@ -37,19 +38,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         User user = userService.convertFromDto(userService.getUser(login));
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (user==null) return null;
-        if (password.equals(pass))
-        {
+        if (user == null) return null;
+        if (password.equals(pass)) {
             authorities.add(new SimpleGrantedAuthority("ADMIN"));
             return new UsernamePasswordAuthenticationToken
                     (user, password, authorities);
         }
-        if (BCrypt.checkpw(password, user.getPassword())){
+        if (BCrypt.checkpw(password, user.getPassword())) {
             authorities.add(new SimpleGrantedAuthority("USER"));
             return new UsernamePasswordAuthenticationToken
                     (user, password, authorities);
-        }
-        else{
+        } else {
             throw new BadCredentialsException("Authentication failed");
         }
     }

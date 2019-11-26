@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import spring.mvc.roombooking.demo.dto.UserPassDto;
-import spring.mvc.roombooking.demo.entities.User;
 import spring.mvc.roombooking.demo.services.UserService;
 import spring.mvc.roombooking.demo.dto.UserDto;
 
@@ -15,8 +14,9 @@ import spring.mvc.roombooking.demo.dto.UserDto;
 public class UserController {
 
     private final UserService userService;
+
     @Autowired
-    UserController( UserService userService) {
+    UserController(UserService userService) {
         this.userService = userService;
     }
 

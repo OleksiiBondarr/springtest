@@ -9,8 +9,11 @@ public class BookingPassDto {
     private String password;
     private String fromdate;
     private String todate;
-    public BookingPassDto(){}
-    public BookingPassDto(String login, String roomName, String password, String fromdate, String todate){
+
+    public BookingPassDto() {
+    }
+
+    public BookingPassDto(String login, String roomName, String password, String fromdate, String todate) {
         this.login = login;
         this.roomName = roomName;
         this.fromdate = fromdate;

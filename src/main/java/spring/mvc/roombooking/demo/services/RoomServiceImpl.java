@@ -5,13 +5,9 @@ import org.springframework.stereotype.Service;
 import spring.mvc.roombooking.demo.entities.Room;
 import spring.mvc.roombooking.demo.exceptions.RoomAlreadyExistException;
 import spring.mvc.roombooking.demo.exceptions.RoomNotFoundException;
-import spring.mvc.roombooking.demo.exceptions.UserNotFoundException;
 import spring.mvc.roombooking.demo.repositories.RoomRepository;
 import spring.mvc.roombooking.demo.dto.RoomDto;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +15,7 @@ import java.util.stream.Collectors;
 public class RoomServiceImpl implements RoomService {
     private final RoomRepository repository;
     private final AvailabilityService availabilityService;
+
     @Autowired
     public RoomServiceImpl(RoomRepository repository, AvailabilityService availabilityService) {
         this.repository = repository;
@@ -37,7 +34,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto postRoom(RoomDto newRoom) {
-        if (!repository.findById(newRoom.getName()).isPresent()){
+        if (!repository.findById(newRoom.getName()).isPresent()) {
             Room room = new Room(newRoom.getName(),
                     newRoom.getLocation(),
                     newRoom.getNumberOfSeats(),
@@ -46,12 +43,14 @@ public class RoomServiceImpl implements RoomService {
             );
             repository.save(room);
             return this.convertToDto(room);
-        }else {
+        } else {
             throw new RoomAlreadyExistException(newRoom.getName());
-        }}
+        }
+    }
+
     @Override
     public RoomDto getRoom(String name) {
-        if(repository.findById(name).isPresent())
+        if (repository.findById(name).isPresent())
             return this.convertToDto(repository.findById(name).get());
         else {
             throw new RoomNotFoundException(name);
@@ -60,7 +59,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto updateRoom(RoomDto newRoom) {
-        if(repository.findById(newRoom.getName()).isPresent()) {
+        if (repository.findById(newRoom.getName()).isPresent()) {
             Room room = this.convertFromDto(this.getRoom(newRoom.getName()));
             room.setLocation(newRoom.getLocation().equals("") ? room.getLocation() : newRoom.getLocation());
             room.setNumberOfSeats(newRoom.getNumberOfSeats().equals(0) ? room.getNumberOfSeats() : newRoom.getNumberOfSeats());
@@ -68,14 +67,14 @@ public class RoomServiceImpl implements RoomService {
             room.setPhoneNumber(newRoom.getPhoneNumber().equals("") ? room.getPhoneNumber() : newRoom.getPhoneNumber());
             repository.save(room);
             return this.convertToDto(room);
-        }else {
+        } else {
             throw new RoomNotFoundException(newRoom.getName());
         }
     }
 
     @Override
     public void deleteRoom(String name) {
-        if(repository.findById(name).isPresent())
+        if (repository.findById(name).isPresent())
             repository.deleteById(name);
         else {
             throw new RoomNotFoundException(name);
@@ -83,10 +82,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     private RoomDto convertToDto(Room room) {
-        return new RoomDto(room.getName(),room.getLocation(),room.getNumberOfSeats(),room.isProjector(),room.getPhoneNumber());
+        return new RoomDto(room.getName(), room.getLocation(), room.getNumberOfSeats(), room.isProjector(), room.getPhoneNumber());
     }
+
     private Room convertFromDto(RoomDto roomDto) {
-        if(repository.findById(roomDto.getName()).isPresent())
+        if (repository.findById(roomDto.getName()).isPresent())
             return repository.findById(roomDto.getName()).get();
         else
             throw new RoomNotFoundException(roomDto.getName());

@@ -4,18 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import spring.mvc.roombooking.demo.dto.BookingDto;
 import spring.mvc.roombooking.demo.dto.BookingPassDto;
-import spring.mvc.roombooking.demo.entities.Booking;
 import spring.mvc.roombooking.demo.services.BookingService;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/booking")
 public class BookingController {
     private final BookingService bookingService;
+
     @Autowired
-    BookingController( BookingService bookingService) {
+    BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
     }
 
@@ -35,8 +34,7 @@ public class BookingController {
     }
 
     @PostMapping
-    BookingDto postBooking(@RequestBody BookingPassDto newBooking)
-    {
+    BookingDto postBooking(@RequestBody BookingPassDto newBooking) {
         return bookingService.postBooking(newBooking);
     }
 

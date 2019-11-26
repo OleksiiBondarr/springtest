@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import spring.mvc.roombooking.demo.entities.Booking;
 import spring.mvc.roombooking.demo.repositories.BookingRepository;
 
-import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -33,13 +33,13 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         } else {
             List<Booking> notAvailableBookings = bookings
                     .stream()
-                    .filter(booking -> this.dateIntervalIntersacts(booking.getFromdate(),booking.getTodate(), datefromDate, datetoDate))
+                    .filter(booking -> this.dateIntervalIntersacts(booking.getFromdate(), booking.getTodate(), datefromDate, datetoDate))
                     .collect(Collectors.toList());
             return notAvailableBookings.size() == 0;
         }
     }
 
-    private boolean dateIntervalIntersacts(Date bookingfromDate, Date bookingtoDate, Date datefromDate, Date datetoDate){
+    private boolean dateIntervalIntersacts(Date bookingfromDate, Date bookingtoDate, Date datefromDate, Date datetoDate) {
         if ((datefromDate == null) && (datetoDate == null)) return true;
         if (datefromDate == null) return (datetoDate.compareTo(bookingfromDate) >= 0);
         if (datetoDate == null) return (datefromDate.compareTo(bookingtoDate) <= 0);
@@ -48,6 +48,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                 ((datefromDate.compareTo(bookingfromDate) >= 0) && (datefromDate.compareTo(bookingtoDate) <= 0)) ||
                 ((datetoDate.compareTo(bookingfromDate) >= 0) && (datetoDate.compareTo(bookingtoDate) <= 0));
     }
+
     @Override
     public Date convertStringToDate(String dateString) {
         try {

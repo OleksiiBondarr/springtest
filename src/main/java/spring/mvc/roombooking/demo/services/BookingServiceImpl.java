@@ -13,10 +13,6 @@ import spring.mvc.roombooking.demo.repositories.BookingRepository;
 import spring.mvc.roombooking.demo.repositories.RoomRepository;
 import spring.mvc.roombooking.demo.repositories.UserRepository;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +23,12 @@ public class BookingServiceImpl implements BookingService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final AvailabilityService availabilityService;
+
     @Autowired
     public BookingServiceImpl(BookingRepository repository,
                               UserRepository userRepository,
                               RoomRepository roomRepository,
-                              AvailabilityService availabilityService){
+                              AvailabilityService availabilityService) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
@@ -42,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
     public List<BookingDto> getBookings(String datefrom, String dateto) {
         return repository.findAll()
                 .stream()
-                .filter(booking -> !this.availabilityService.isAvailable(booking.getRoomName(), datefrom,dateto))
+                .filter(booking -> !this.availabilityService.isAvailable(booking.getRoomName(), datefrom, dateto))
                 .map(this::convertToDto).collect(Collectors.toList());
     }
 
@@ -55,7 +52,7 @@ public class BookingServiceImpl implements BookingService {
                     .filter(booking -> booking.getRoomName().equals(name) && !this.availabilityService.isAvailable(booking.getRoomName(), datefrom, dateto))
                     .map(this::convertToDto)
                     .collect(Collectors.toList());
-        }else
+        } else
             throw new RoomNotFoundException(name);
     }
 
@@ -63,40 +60,39 @@ public class BookingServiceImpl implements BookingService {
     public List<BookingDto> getBookingByUser(String login, String datefrom, String dateto) {
         if (userRepository.findById(login).isPresent())
             return repository
-                .findAll()
-                .stream().filter(booking -> booking.getLogin().equals(login)&&!this.availabilityService.isAvailable(booking.getRoomName(), datefrom, dateto))
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+                    .findAll()
+                    .stream().filter(booking -> booking.getLogin().equals(login) && !this.availabilityService.isAvailable(booking.getRoomName(), datefrom, dateto))
+                    .map(this::convertToDto)
+                    .collect(Collectors.toList());
         else
             throw new UserNotFoundException(login);
     }
 
     @Override
     public BookingDto postBooking(BookingPassDto newBooking) {
-        if(!userRepository.findById(newBooking.getLogin()).isPresent())
+        if (!userRepository.findById(newBooking.getLogin()).isPresent())
             throw new UserNotFoundException(newBooking.getLogin());
-        if(!roomRepository.findById(newBooking.getRoomName()).isPresent())
+        if (!roomRepository.findById(newBooking.getRoomName()).isPresent())
             throw new RoomNotFoundException(newBooking.getRoomName());
-        if(BCrypt.checkpw(newBooking.getPassword(), userRepository.findById(newBooking.getLogin()).get().getPassword())){
-            Booking booking = new Booking( newBooking.getLogin(),
+        if (BCrypt.checkpw(newBooking.getPassword(), userRepository.findById(newBooking.getLogin()).get().getPassword())) {
+            Booking booking = new Booking(newBooking.getLogin(),
                     newBooking.getRoomName(),
                     this.availabilityService.convertStringToDate(newBooking.getFromdate()),
                     this.availabilityService.convertStringToDate(newBooking.getTodate()));
-            if(this.availabilityService.isAvailable(booking.getRoomName(),newBooking.getFromdate(),newBooking.getTodate())){
+            if (this.availabilityService.isAvailable(booking.getRoomName(), newBooking.getFromdate(), newBooking.getTodate())) {
                 repository.save(booking);
                 return this.convertToDto(booking);
             }
             throw new RoomIsNotAvailableException(newBooking.getRoomName(),
                     newBooking.getFromdate(),
                     newBooking.getTodate());
-        }
-        else{
+        } else {
             throw new UserNotFoundException(newBooking.getLogin());
         }
     }
 
 
     private BookingDto convertToDto(Booking booking) {
-        return new BookingDto(booking.getLogin(),booking.getRoomName(),booking.getFromdate().toString(),booking.getTodate().toString());
+        return new BookingDto(booking.getLogin(), booking.getRoomName(), booking.getFromdate().toString(), booking.getTodate().toString());
     }
 }

@@ -10,8 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomAuthenticationProvider authProvider;
+
     @Autowired
-    SpringSecurityConfig( CustomAuthenticationProvider authProvider) {
+    SpringSecurityConfig(CustomAuthenticationProvider authProvider) {
         this.authProvider = authProvider;
     }
 
