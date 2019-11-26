@@ -30,7 +30,7 @@ public class UserController {
         return userService.postUser(newUser);
     }
 
-    @PutMapping("/{login}")
+    @PutMapping
     UserDto updateUser(@RequestBody UserPassDto newUser) {
         return userService.updateUser(newUser);
     }

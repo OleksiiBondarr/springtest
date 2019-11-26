@@ -1,0 +1,62 @@
+Project can be build using maven command:
+mvnw clean package
+
+Query examples:
+GET localhost:8080/users - get all users, authentication required
+POST localhost:8080/users - create new user, authentication with secret password required
+body example:
+{
+        "name": "Rob",
+        "surname": "Bert",
+        "login": "123",
+        "password": "456"
+}
+DELETE localhost:8080/users/123 - delete selected user, authentication with secret password required
+PUT localhost:8080/users - update user(login is taken from JSON, given in body), authentication with secret password required
+body example:
+{
+         "name": "John",
+         "surname": "Smith",
+         "login": "jsmith",
+        "password": "12345678"
+}
+
+GET localhost:8080/rooms - get all rooms(available at the moment), authentication required
+POST localhost:8080/rooms - create new room, authentication with secret password required
+body example:
+{
+        "name": "Tiny Room",
+        "location": "4nd floor",
+        "numberOfSeats": 1,
+        "projector": false,
+        "phoneNumber": "222"
+}
+DELETE localhost:8080/rooms/Tiny Room - delete selected room, authentication with secret password required
+PUT localhost:8080/rooms/Medium Room - update room(Room name is taken from JSON, given in body), authentication with secret password required
+body example:
+{
+        "name": "Medium Room",
+        "location": "2st floor",
+        "numberOfSeats": 6,
+        "projector": false,
+        "phoneNumber": "333-333-333"
+}
+
+POST localhost:8080/booking - create new booking
+{
+		"login": "jdoe",
+        "roomName": "Large Room",
+        "password": "mySecret",
+        "fromdate": "2019-11-26 11:15:00",
+        "todate": "2019-11-26 16:15:00"
+}
+GET localhost:8080/booking/all?fromdate=null&todate=null - get all bookings for a given time frame(null means open date)
+GET localhost:8080/booking/room?name=Large Room&fromdate=null&todate=2019-11-26 10:15:00 - get all bookings for a given room for a given time frame(null means open date)
+GET localhost:8080/booking/user?login=jdoe&fromdate=2019-11-26 10:15:00&todate=null - get all bookings for a given user for a given time frame(null means open date)
+
+Possible error messages:
+Room already exists: Large Room - creation new room wasn't done because the room with the given name(Large Room) already exists
+User already exists: jsmith - creation new user wasn't done because the user with the given login(jsmith) already exists
+Could not find user bob - request failed because user with the given login(bob) is not created
+Could not find room Tiny Room - request failed because room with the given name(Tiny Room) is not created
+Room is not available for the asked time: Large Room 2019-11-25 11:15:00 2019-11-28 16:15:00 - request failed because room(Large Room) was already booked and asked period(2019-11-25 11:15:00-2019-11-28 16:15:00) intersects with the existing one
