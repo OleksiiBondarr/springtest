@@ -43,6 +43,7 @@ body example:
 }
 
 POST localhost:8080/booking - create new booking
+body example:
 {
 		"login": "jdoe",
         "roomName": "Large Room",
