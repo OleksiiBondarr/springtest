@@ -2,7 +2,6 @@ package spring.mvc.roombooking.demo.boot;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import spring.mvc.roombooking.demo.entities.Room;
 import spring.mvc.roombooking.demo.entities.User;
@@ -25,7 +24,7 @@ public class InitDatabase {
     private Resource rooms;
 
     @Autowired
-    public InitDatabase(UserRepository userRepository, RoomRepository roomRepository, ResourceLoader resourceLoader) {
+    public InitDatabase(UserRepository userRepository, RoomRepository roomRepository) {
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
         this.users = new ClassPathResource("users");
