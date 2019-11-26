@@ -17,6 +17,13 @@ public class ExceptionsAdvice {
     }
 
     @ResponseBody
+    @ExceptionHandler(PasswordIsToShortException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public String passwordIsToShortHandler(PasswordIsToShortException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseBody
     @ExceptionHandler(UserAlreadyExistException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String userAlreadyExistHandler(UserAlreadyExistException ex) {

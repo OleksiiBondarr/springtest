@@ -61,3 +61,4 @@ User already exists: jsmith - creation new user wasn't done because the user wit
 Could not find user bob - request failed because user with the given login(bob) is not created
 Could not find room Tiny Room - request failed because room with the given name(Tiny Room) is not created
 Room is not available for the asked time: Large Room 2019-11-25 11:15:00 2019-11-28 16:15:00 - request failed because room(Large Room) was already booked and asked period(2019-11-25 11:15:00-2019-11-28 16:15:00) intersects with the existing one
+Password should be longer than 6 character - creating or updating wasn't done because given password was too short

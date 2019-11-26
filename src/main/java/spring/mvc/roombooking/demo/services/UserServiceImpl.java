@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import spring.mvc.roombooking.demo.dto.UserPassDto;
 import spring.mvc.roombooking.demo.entities.User;
+import spring.mvc.roombooking.demo.exceptions.PasswordIsToShortException;
 import spring.mvc.roombooking.demo.exceptions.UserAlreadyExistException;
 import spring.mvc.roombooking.demo.exceptions.UserNotFoundException;
 import spring.mvc.roombooking.demo.repositories.UserRepository;
@@ -31,6 +32,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto postUser(UserPassDto newUser) {
         if (!repository.findById(newUser.getLogin()).isPresent()) {
+            if (newUser.getPassword().length() < 6)
+                throw new PasswordIsToShortException();
             newUser.setPassword(this.setPassword(newUser.getPassword()));
             User user = new User(
                     newUser.getName(),
@@ -56,6 +59,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UserPassDto newUser) {
         if (repository.findById(newUser.getLogin()).isPresent()) {
+            if (newUser.getPassword().length() < 6)
+                throw new PasswordIsToShortException();
             User user = this.convertFromDto(this.getUser(newUser.getLogin()));
             user.setName(newUser.getName());
             user.setSurname(newUser.getSurname());

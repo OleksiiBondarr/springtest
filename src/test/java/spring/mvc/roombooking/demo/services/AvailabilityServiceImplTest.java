@@ -37,7 +37,6 @@ class AvailabilityServiceImplTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     @Test
