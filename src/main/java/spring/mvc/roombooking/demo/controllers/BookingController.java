@@ -3,6 +3,7 @@ package spring.mvc.roombooking.demo.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import spring.mvc.roombooking.demo.dto.BookingDto;
+import spring.mvc.roombooking.demo.dto.BookingPassDto;
 import spring.mvc.roombooking.demo.entities.Booking;
 import spring.mvc.roombooking.demo.services.BookingService;
 
@@ -18,23 +19,23 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    @GetMapping("/all/{datefrom}/{dateto}")
-    List<BookingDto> getBookings(@PathVariable String datefrom, @PathVariable String dateto) {
-        return bookingService.getBookings(datefrom, dateto);
+    @GetMapping("/all")
+    List<BookingDto> getBookings(@RequestParam String fromdate, @RequestParam String todate) {
+        return bookingService.getBookings(fromdate, todate);
     }
 
-    @GetMapping("/room/{name}/{datefrom}/{dateto}")
-    List<BookingDto> getBookingByRoom(@PathVariable String name, @PathVariable String datefrom, @PathVariable String dateto) {
-        return bookingService.getBookingByRoom(name, datefrom, dateto);
+    @GetMapping("/room")
+    List<BookingDto> getBookingByRoom(@RequestParam String name, @RequestParam String fromdate, @RequestParam String todate) {
+        return bookingService.getBookingByRoom(name, fromdate, todate);
     }
 
-    @GetMapping("/user/{login}/{datefrom}/{dateto}")
-    List<BookingDto> getBookingByUser(@PathVariable String login, @PathVariable String datefrom, @PathVariable String dateto) {
-        return bookingService.getBookingByUser(login, datefrom, dateto);
+    @GetMapping("/user")
+    List<BookingDto> getBookingByUser(@RequestParam String login, @RequestParam String fromdate, @RequestParam String todate) {
+        return bookingService.getBookingByUser(login, fromdate, todate);
     }
 
     @PostMapping
-    BookingDto postBooking(@RequestBody HashMap<String,Object> newBooking)
+    BookingDto postBooking(@RequestBody BookingPassDto newBooking)
     {
         return bookingService.postBooking(newBooking);
     }

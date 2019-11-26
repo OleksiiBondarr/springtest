@@ -25,13 +25,13 @@ public class RoomController {
     }
 
     @PostMapping
-    RoomDto postRoom(@RequestBody Room newRoom) {
+    RoomDto postRoom(@RequestBody RoomDto newRoom) {
         return roomService.postRoom(newRoom);
     }
 
     @PutMapping("/{name}")
-    RoomDto updateUser(@RequestBody Room newRoom, @PathVariable String name) {
-        return roomService.updateRoom(newRoom, name);
+    RoomDto updateUser(@RequestBody RoomDto newRoom) {
+        return roomService.updateRoom(newRoom);
     }
 
     @DeleteMapping("/{name}")

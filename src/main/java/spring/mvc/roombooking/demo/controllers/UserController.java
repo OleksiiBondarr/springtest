@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import spring.mvc.roombooking.demo.dto.UserPassDto;
 import spring.mvc.roombooking.demo.entities.User;
 import spring.mvc.roombooking.demo.services.UserService;
 import spring.mvc.roombooking.demo.dto.UserDto;
@@ -25,13 +26,13 @@ public class UserController {
     }
 
     @PostMapping
-    UserDto postUser(@RequestBody User newUser) {
+    UserDto postUser(@RequestBody UserPassDto newUser) {
         return userService.postUser(newUser);
     }
 
     @PutMapping("/{login}")
-    UserDto updateUser(@RequestBody User newUser, @PathVariable String login) {
-        return userService.updateUser(newUser, login);
+    UserDto updateUser(@RequestBody UserPassDto newUser) {
+        return userService.updateUser(newUser);
     }
 
     @DeleteMapping("/{login}")

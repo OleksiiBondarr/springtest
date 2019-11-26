@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import spring.mvc.roombooking.demo.dto.BookingDto;
+import spring.mvc.roombooking.demo.dto.BookingPassDto;
 import spring.mvc.roombooking.demo.entities.Booking;
 import spring.mvc.roombooking.demo.exceptions.RoomIsNotAvailableException;
 import spring.mvc.roombooking.demo.exceptions.RoomNotFoundException;
@@ -71,26 +72,26 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDto postBooking(HashMap<String,Object> newBooking) {
-        if(!userRepository.findById((String)newBooking.get("login")).isPresent())
-            throw new UserNotFoundException((String)newBooking.get("login"));
-        if(!roomRepository.findById((String)newBooking.get("name")).isPresent())
-            throw new RoomNotFoundException((String)newBooking.get("name"));
-        if(BCrypt.checkpw((String)newBooking.get("password"), userRepository.findById((String)newBooking.get("login")).get().getPassword())){
-            Booking booking = new Booking((String) newBooking.get("login"),
-                    (String) newBooking.get("name"),
-                    this.availabilityService.convertStringToDate((String) newBooking.get("datefrom")),
-                    this.availabilityService.convertStringToDate((String) newBooking.get("dateto")));
-            if(this.availabilityService.isAvailable(booking.getRoomName(),(String) newBooking.get("datefrom"),(String)newBooking.get("dateto"))){
+    public BookingDto postBooking(BookingPassDto newBooking) {
+        if(!userRepository.findById(newBooking.getLogin()).isPresent())
+            throw new UserNotFoundException(newBooking.getLogin());
+        if(!roomRepository.findById(newBooking.getRoomName()).isPresent())
+            throw new RoomNotFoundException(newBooking.getRoomName());
+        if(BCrypt.checkpw(newBooking.getPassword(), userRepository.findById(newBooking.getLogin()).get().getPassword())){
+            Booking booking = new Booking( newBooking.getLogin(),
+                    newBooking.getRoomName(),
+                    this.availabilityService.convertStringToDate(newBooking.getFromdate()),
+                    this.availabilityService.convertStringToDate(newBooking.getTodate()));
+            if(this.availabilityService.isAvailable(booking.getRoomName(),newBooking.getFromdate(),newBooking.getTodate())){
                 repository.save(booking);
                 return this.convertToDto(booking);
             }
-            throw new RoomIsNotAvailableException((String)newBooking.get("login"),
-                    (String)newBooking.get("datefrom"),
-                    (String)newBooking.get("dateto"));
+            throw new RoomIsNotAvailableException(newBooking.getRoomName(),
+                    newBooking.getFromdate(),
+                    newBooking.getTodate());
         }
         else{
-            throw new UserNotFoundException((String)newBooking.get("login"));
+            throw new UserNotFoundException(newBooking.getLogin());
         }
     }
 

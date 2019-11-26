@@ -27,24 +27,29 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<RoomDto> getRooms() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return repository
                 .findAll()
                 .stream()
-                .filter(room -> this.availabilityService.isAvailable(room.getName(), dateFormat.format(new Date()), dateFormat.format(new Date())))
+                .filter(room -> this.availabilityService.isAvailableNow(room.getName()))
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public RoomDto postRoom(Room newRoom) {
+    public RoomDto postRoom(RoomDto newRoom) {
         if (!repository.findById(newRoom.getName()).isPresent()){
-            repository.save(newRoom);
-            return this.convertToDto(newRoom);
+            Room room = new Room(newRoom.getName(),
+                    newRoom.getLocation(),
+                    newRoom.getNumberOfSeats(),
+                    newRoom.isProjector(),
+                    newRoom.getPhoneNumber()
+            );
+            repository.save(room);
+            return this.convertToDto(room);
         }else {
             throw new RoomAlreadyExistException(newRoom.getName());
         }}
-
+    @Override
     public RoomDto getRoom(String name) {
         if(repository.findById(name).isPresent())
             return this.convertToDto(repository.findById(name).get());
@@ -54,10 +59,9 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomDto updateRoom(Room newRoom, String name) {
-        if(repository.findById(name).isPresent()) {
-            Room room = this.convertFromDto(this.getRoom(name));
-            room.setName(newRoom.getName().equals("") ? room.getName() : newRoom.getName());
+    public RoomDto updateRoom(RoomDto newRoom) {
+        if(repository.findById(newRoom.getName()).isPresent()) {
+            Room room = this.convertFromDto(this.getRoom(newRoom.getName()));
             room.setLocation(newRoom.getLocation().equals("") ? room.getLocation() : newRoom.getLocation());
             room.setNumberOfSeats(newRoom.getNumberOfSeats().equals(0) ? room.getNumberOfSeats() : newRoom.getNumberOfSeats());
             room.setProjector(newRoom.isProjector());
@@ -65,7 +69,7 @@ public class RoomServiceImpl implements RoomService {
             repository.save(room);
             return this.convertToDto(room);
         }else {
-            throw new RoomNotFoundException(name);
+            throw new RoomNotFoundException(newRoom.getName());
         }
     }
 

@@ -8,7 +8,7 @@ public class RoomDto {
     private String name;
     private String location;
     private Integer numberOfSeats;
-    private boolean projector = false;
+    private boolean projector;
     private String phoneNumber;
 
     public RoomDto() {}
