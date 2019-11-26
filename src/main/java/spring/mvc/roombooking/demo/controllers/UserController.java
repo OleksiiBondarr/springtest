@@ -3,6 +3,7 @@ package spring.mvc.roombooking.demo.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import spring.mvc.roombooking.demo.entities.User;
 import spring.mvc.roombooking.demo.services.UserService;
@@ -18,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping
     List<UserDto> getUsers() {
         return userService.getUsers();
     }
@@ -34,7 +35,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{login}")
-    void deleteUser(@PathVariable String login) {
+    HttpStatus deleteUser(@PathVariable String login) {
         userService.deleteUser(login);
+        return HttpStatus.OK;
     }
 }

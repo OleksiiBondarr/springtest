@@ -11,10 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 @Entity
 @Data
 public class User {
-    private @Id @GeneratedValue Long id;
     private String name;
     private String surname;
-    private String login;
+    private @Id String login;
     private String password;
     public User() {}
 

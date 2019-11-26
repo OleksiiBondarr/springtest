@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface RoomService {
     List<RoomDto> getRooms();
+    RoomDto getRoom(String name);
     RoomDto postRoom(Room newRoom);
     RoomDto updateRoom(Room newRoom, String name);
     void deleteRoom(String name);

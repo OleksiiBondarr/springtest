@@ -1,6 +1,7 @@
 package spring.mvc.roombooking.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import spring.mvc.roombooking.demo.entities.Room;
 import spring.mvc.roombooking.demo.services.RoomService;
@@ -18,7 +19,7 @@ public class RoomController {
     }
 
 
-    @GetMapping()
+    @GetMapping
     List<RoomDto> getRooms() {
         return roomService.getRooms();
     }
@@ -34,7 +35,8 @@ public class RoomController {
     }
 
     @DeleteMapping("/{name}")
-    void deleteRoom(@PathVariable String name) {
+    HttpStatus deleteRoom(@PathVariable String name) {
         roomService.deleteRoom(name);
+        return HttpStatus.OK;
     }
 }
