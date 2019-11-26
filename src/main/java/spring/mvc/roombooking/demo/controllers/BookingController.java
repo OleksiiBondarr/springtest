@@ -23,14 +23,14 @@ public class BookingController {
         return bookingService.getBookings(datefrom, dateto);
     }
 
-    @GetMapping("/user/{login}/{datefrom}/{dateto}")
-    List<BookingDto> getBookingByRoom(@PathVariable String login, @PathVariable String datefrom, @PathVariable String dateto) {
-        return bookingService.getBookingByRoom(login, datefrom, dateto);
+    @GetMapping("/room/{name}/{datefrom}/{dateto}")
+    List<BookingDto> getBookingByRoom(@PathVariable String name, @PathVariable String datefrom, @PathVariable String dateto) {
+        return bookingService.getBookingByRoom(name, datefrom, dateto);
     }
 
-    @GetMapping("/room/{name}/{datefrom}/{dateto}")
-    List<BookingDto> getBookingByUser(@PathVariable String name, @PathVariable String datefrom, @PathVariable String dateto) {
-        return bookingService.getBookingByUser(name, datefrom, dateto);
+    @GetMapping("/user/{login}/{datefrom}/{dateto}")
+    List<BookingDto> getBookingByUser(@PathVariable String login, @PathVariable String datefrom, @PathVariable String dateto) {
+        return bookingService.getBookingByUser(login, datefrom, dateto);
     }
 
     @PostMapping

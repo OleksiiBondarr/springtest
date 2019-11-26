@@ -47,15 +47,15 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getBookingByRoom(String name, String datefrom, String dateto) {
-        if (roomRepository.findById(name).isPresent())
+        if (roomRepository.findById(name).isPresent()) {
             return repository
-                .findAll()
-                .stream()
-                .filter(booking -> booking.getRoomName().equals(name)&&!this.availabilityService.isAvailable(booking.getRoomName(), datefrom,dateto))
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-        else
-            throw new RoomNotFoundException(name);//TODO FIX bug, throws User not found Exception
+                    .findAll()
+                    .stream()
+                    .filter(booking -> booking.getRoomName().equals(name) && !this.availabilityService.isAvailable(booking.getRoomName(), datefrom, dateto))
+                    .map(this::convertToDto)
+                    .collect(Collectors.toList());
+        }else
+            throw new RoomNotFoundException(name);
     }
 
     @Override
@@ -77,8 +77,8 @@ public class BookingServiceImpl implements BookingService {
         if(!roomRepository.findById((String)newBooking.get("name")).isPresent())
             throw new RoomNotFoundException((String)newBooking.get("name"));
         if(BCrypt.checkpw((String)newBooking.get("password"), userRepository.findById((String)newBooking.get("login")).get().getPassword())){
-            Booking booking = new Booking((String) newBooking.get("name"),
-                    (String) newBooking.get("login"),
+            Booking booking = new Booking((String) newBooking.get("login"),
+                    (String) newBooking.get("name"),
                     this.availabilityService.convertStringToDate((String) newBooking.get("datefrom")),
                     this.availabilityService.convertStringToDate((String) newBooking.get("dateto")));
             if(this.availabilityService.isAvailable(booking.getRoomName(),(String) newBooking.get("datefrom"),(String)newBooking.get("dateto"))){
