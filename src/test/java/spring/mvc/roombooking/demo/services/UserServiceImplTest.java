@@ -23,24 +23,25 @@ import static org.mockito.Mockito.when;
 
 @DataJpaTest
 class UserServiceImplTest {
-    @MockBean(name="userRepository")
+    @MockBean(name = "userRepository")
     private UserRepository userRepository;
     @InjectMocks
     private UserServiceImpl userService;
+
     @BeforeEach
     public void setUp() {
-        User user = new User("r","t","y","u");
-        User user2 = new User("r2","t2","y2","u2");
+        User user = new User("r", "t", "y", "u");
+        User user2 = new User("r2", "t2", "y2", "u2");
         when(userRepository.findById(user.getLogin())).thenReturn(java.util.Optional.of(user));
         when(userRepository.findById(user2.getLogin())).thenReturn(java.util.Optional.of(user2));
-        when(userRepository.findAll()).thenReturn(Arrays.asList(user,user2));
+        when(userRepository.findAll()).thenReturn(Arrays.asList(user, user2));
         userService = new UserServiceImpl(userRepository);
     }
 
 
     @Test
     void postUser() {
-        UserPassDto userpassDto = new UserPassDto("f","g","h","j");
+        UserPassDto userpassDto = new UserPassDto("f", "g", "h", "j");
         UserDto created = userService.postUser(userpassDto);
         assertThat(created.getLogin()).isSameAs(userpassDto.getLogin());
         assertThat(created.getSurname()).isSameAs(userpassDto.getSurname());
@@ -49,24 +50,26 @@ class UserServiceImplTest {
 
     @Test
     void getUser() {
-        User user = new User("r","t","y","u");
+        User user = new User("r", "t", "y", "u");
         UserDto created = userService.getUser(user.getLogin());
         assertThat(created.getLogin()).isSameAs(user.getLogin());
         assertThat(created.getSurname()).isSameAs(user.getSurname());
         assertThat(created.getName()).isSameAs(user.getName());
     }
+
     @Test
     void getUsers() {
-        UserDto user = new UserDto("r","t","y");
-        UserDto user2 = new UserDto("r2","t2","y2");
-        List<UserDto> users = Arrays.asList(user,user2);
+        UserDto user = new UserDto("r", "t", "y");
+        UserDto user2 = new UserDto("r2", "t2", "y2");
+        List<UserDto> users = Arrays.asList(user, user2);
         List<UserDto> received = userService.getUsers();
         assertThat(users.get(0).getLogin()).isSameAs(received.get(0).getLogin());
         assertThat(users.get(1).getLogin()).isSameAs(received.get(1).getLogin());
     }
+
     @Test
     void updateUser() {
-        UserPassDto user = new UserPassDto("r","newt","y","u");
+        UserPassDto user = new UserPassDto("r", "newt", "y", "u");
         UserDto updated = userService.updateUser(user);
         assertThat(updated.getLogin()).isSameAs(user.getLogin());
         assertThat(updated.getSurname()).isSameAs(user.getSurname());
