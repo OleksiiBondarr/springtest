@@ -45,7 +45,7 @@ body example:
 POST localhost:8080/booking - create new booking
 body example:
 {
-    "login": "jdoe",
+        "login": "jdoe",
         "roomName": "Large Room",
         "password": "mySecret",
         "fromdate": "2019-11-26 11:15:00",
