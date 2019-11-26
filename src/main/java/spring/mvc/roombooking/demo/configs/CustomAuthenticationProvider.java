@@ -1,6 +1,7 @@
 package spring.mvc.roombooking.demo.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,9 +22,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
     private final UserService userService;
+    private final String pass;
     @Autowired
-    CustomAuthenticationProvider( UserService userService) {
+    CustomAuthenticationProvider(@Value("${rootpassword}") String pass, UserService userService) {
         this.userService = userService;
+        this.pass = pass;
     }
 
     @Override
@@ -34,9 +37,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         User user = userService.convertFromDto(userService.getUser(login));
         List<GrantedAuthority> authorities = new ArrayList<>();
-
         if (user==null) return null;
-        if (password.equals("q1w2e3r4"))//TODO create a file
+        if (password.equals(pass))
         {
             authorities.add(new SimpleGrantedAuthority("ADMIN"));
             return new UsernamePasswordAuthenticationToken

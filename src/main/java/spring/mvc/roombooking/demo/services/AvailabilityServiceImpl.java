@@ -31,20 +31,23 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         if (bookings.size() == 0) {
             return true;
         } else {
-            List<Booking> notAvailableBookings = bookings.stream().filter(booking -> {
-                if ((datefromDate == null) && (datetoDate == null)) return true;
-                if (datefromDate == null) return (datetoDate.compareTo(booking.getFromdate()) >= 0);
-                if (datetoDate == null) return (datefromDate.compareTo(booking.getTodate()) <= 0);
-                return (((booking.getFromdate().compareTo(datefromDate) >= 0) && (booking.getFromdate().compareTo(datetoDate) <= 0)) ||
-                        ((booking.getTodate().compareTo(datefromDate) >= 0) && (booking.getTodate().compareTo(datetoDate) <= 0)) ||
-                        ((datefromDate.compareTo(booking.getFromdate()) >= 0) && (datefromDate.compareTo(booking.getTodate()) <= 0)) ||
-                        ((datetoDate.compareTo(booking.getFromdate()) >= 0) && (datetoDate.compareTo(booking.getTodate()) <= 0))
-                );
-            }).collect(Collectors.toList());
+            List<Booking> notAvailableBookings = bookings
+                    .stream()
+                    .filter(booking -> this.dateIntervalIntersacts(booking.getFromdate(),booking.getTodate(), datefromDate, datetoDate))
+                    .collect(Collectors.toList());
             return notAvailableBookings.size() == 0;
         }
     }
 
+    private boolean dateIntervalIntersacts(Date bookingfromDate, Date bookingtoDate, Date datefromDate, Date datetoDate){
+        if ((datefromDate == null) && (datetoDate == null)) return true;
+        if (datefromDate == null) return (datetoDate.compareTo(bookingfromDate) >= 0);
+        if (datetoDate == null) return (datefromDate.compareTo(bookingtoDate) <= 0);
+        return ((bookingfromDate.compareTo(datefromDate) >= 0) && (bookingfromDate.compareTo(datetoDate) <= 0)) ||
+                ((bookingtoDate.compareTo(datefromDate) >= 0) && (bookingtoDate.compareTo(datetoDate) <= 0)) ||
+                ((datefromDate.compareTo(bookingfromDate) >= 0) && (datefromDate.compareTo(bookingtoDate) <= 0)) ||
+                ((datetoDate.compareTo(bookingfromDate) >= 0) && (datetoDate.compareTo(bookingtoDate) <= 0));
+    }
     @Override
     public Date convertStringToDate(String dateString) {
         try {
